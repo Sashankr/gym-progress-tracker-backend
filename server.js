@@ -1,11 +1,14 @@
 require("dotenv").config();
+const cors = require("cors");
+
 const express = require("express");
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
-const workoutRoutes = require("./src/routes/saveWorkout");
+const workoutRoutes = require("./src/routes/workout");
 
 app.use("/api/v1/workout", workoutRoutes);
 
