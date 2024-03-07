@@ -2,7 +2,7 @@ let workoutController = {
   async saveWorkout(req, res) {
     const body = req.body;
     console.log(body);
-    res.send({ data: "Workout saved" });
+    res.send(201, { data: "Workout saved" });
   },
 };
 
