@@ -1,11 +1,8 @@
 const express = require("express");
+const controllers = require("../controllers");
 
 const router = express.Router();
 
-router.post("/save-workout", (req, res) => {
-  const body = req.body;
-  console.log(body);
-  res.send({ data: "Workout saved" });
-});
+router.post("/save-workout", controllers.workoutController.saveWorkout);
 
 module.exports = router;
