@@ -6,6 +6,12 @@ connectToDb();
 const express = require("express");
 const app = express();
 app.use(express.json());
+
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://gym-progress-tracker.vercel.app"],
+  optionsSuccessStatus: 200, // for some legacy browsers
+};
+
 app.use(cors());
 
 const PORT = process.env.PORT || 3000;

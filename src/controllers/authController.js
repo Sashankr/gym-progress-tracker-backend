@@ -12,12 +12,35 @@ const UserController = {
           message: "All fields are required",
         });
       }
-      const oldUser = await UserModel.findOne({ emailId });
-      if (oldUser) {
-        return res.send(409, {
-          message: "This user already exists, please login",
+      // const oldUser = await UserModel.findOne({
+      //   $or: [{ username }, { emailId }],
+      // });
+      // console.log("old", oldUser);
+      try {
+        const oldUser = await UserModel.findOne({
+          $or: [{ username }, { emailId }],
         });
+        console.log(oldUser);
+
+        if (oldUser) {
+          if (oldUser.username === username) {
+            return res.status(409).send({
+              message: `Username : ${username} already exists`,
+            });
+          }
+
+          if (oldUser.emailId === emailId) {
+            return res.status(409).send({
+              message: `Email : ${emailId} already exists`,
+            });
+          }
+        } else {
+          console.log("No user found");
+        }
+      } catch (err) {
+        console.error("Error:", err);
       }
+
       const encryptedPassword = await bcrypt.hash(password, 10);
       console.log(encryptedPassword);
       const user = await UserModel.create({
@@ -42,6 +65,7 @@ const UserController = {
       console.log(err);
       res.send(500, {
         message: "Something went wrong",
+        error: err,
       });
     }
   },
