@@ -77,7 +77,7 @@ const UserController = {
           message: "All fields are required",
         });
       }
-      const user = await UserModel.findOne({ emailId });
+      let user = await UserModel.findOne({ emailId });
       const checkIfPasswordSame = await bcrypt.compare(password, user.password);
 
       if (user && checkIfPasswordSame) {
@@ -87,10 +87,15 @@ const UserController = {
           { expiresIn: "5h" }
         );
         user.token = token;
+        user.password = undefined;
+        const updatedUser = {
+          user,
+          token,
+        };
         return res.status(200).send({
           message: "Login Verified",
           status: 200,
-          data: user,
+          data: updatedUser,
         });
       } else {
         return res.send(400).send({
