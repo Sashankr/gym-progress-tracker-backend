@@ -48,6 +48,7 @@ let workoutController = {
         data: workouts,
         totalCount: count,
         currentPageCount: workouts.length,
+        status: 200,
       });
     } else {
       return res.status(200).send({
@@ -55,6 +56,7 @@ let workoutController = {
         data: workouts,
         totalCount: count,
         currentPageCount: workouts.length,
+        status: 200,
       });
     }
   },
