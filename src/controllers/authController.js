@@ -78,6 +78,11 @@ const UserController = {
         });
       }
       let user = await UserModel.findOne({ emailId });
+      if (!user) {
+        return res.status(500).send({
+          message: "Email Id not found",
+        });
+      }
       const checkIfPasswordSame = await bcrypt.compare(password, user.password);
 
       if (user && checkIfPasswordSame) {
@@ -98,7 +103,7 @@ const UserController = {
           data: updatedUser,
         });
       } else {
-        return res.send(400).send({
+        return res.status(400).send({
           message: "Invalid Credentials",
         });
       }
