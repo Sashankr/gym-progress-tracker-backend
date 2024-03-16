@@ -6,21 +6,16 @@ const UserController = {
   async signup(req, res, next) {
     try {
       const { fullName, username, emailId, password } = req.body;
-      console.log("body", req.body);
       if (!(fullName && username && emailId && password)) {
         return res.send(400, {
           message: "All fields are required",
         });
       }
-      // const oldUser = await UserModel.findOne({
-      //   $or: [{ username }, { emailId }],
-      // });
-      // console.log("old", oldUser);
+
       try {
         const oldUser = await UserModel.findOne({
           $or: [{ username }, { emailId }],
         });
-        console.log(oldUser);
 
         if (oldUser) {
           if (oldUser.username === username) {
@@ -35,14 +30,18 @@ const UserController = {
             });
           }
         } else {
-          console.log("No user found");
+          return res.status(200).send({
+            message: `User Not Found`,
+          });
         }
       } catch (err) {
         console.error("Error:", err);
+        return res.status(500).send({
+          message: `Something went wrong`,
+        });
       }
 
       const encryptedPassword = await bcrypt.hash(password, 10);
-      console.log(encryptedPassword);
       const user = await UserModel.create({
         fullName,
         username,
@@ -62,7 +61,6 @@ const UserController = {
         data: user,
       });
     } catch (err) {
-      console.log(err);
       res.send(500, {
         message: "Something went wrong",
         error: err,

@@ -52,7 +52,7 @@ let workoutController = {
     const workout = await WorkoutModel.create(body);
 
     res.send(201, {
-      data: "Workout saved",
+      message: "Workout saved",
       status: 201,
       workoutDetails: workout,
     });
@@ -62,7 +62,6 @@ let workoutController = {
     const { page, limit, date } = req.query;
 
     const actualPage = page - 1;
-    console.log(userId);
     const isValidUser = await UserModel.findOne({ _id: userId });
     if (!isValidUser) {
       return res.status(400).send({
@@ -71,11 +70,6 @@ let workoutController = {
     }
     const createdDate = moment(date, "DD-MM-YYYY").utc().toISOString();
 
-    console.log({
-      1: createdDate,
-      2: moment(createdDate).add(1, "day").toISOString(),
-    });
-
     const totalWorkouts = await WorkoutModel.findOne({
       userId,
       createdAt: {
@@ -83,7 +77,7 @@ let workoutController = {
         $lt: moment(createdDate).add(1, "day").toISOString(),
       },
     });
-    const count = totalWorkouts.length;
+    const count = totalWorkouts?.length;
     const workouts = await WorkoutModel.find({
       userId,
       createdAt: {
@@ -93,7 +87,7 @@ let workoutController = {
     })
       .skip(limit * actualPage)
       .limit(limit);
-    if (workouts.length === 0) {
+    if (workouts?.length === 0) {
       return res.status(200).send({
         message: "No Workouts Found",
         data: workouts,
@@ -106,7 +100,7 @@ let workoutController = {
         message: "Workouts Found",
         data: workouts,
         totalCount: count,
-        currentPageCount: workouts.length,
+        currentPageCount: workouts?.length,
         status: 200,
       });
     }
