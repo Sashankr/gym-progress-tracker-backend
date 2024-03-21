@@ -30,8 +30,24 @@ const UserController = {
             });
           }
         } else {
-          return res.status(200).send({
-            message: `User Not Found`,
+          const encryptedPassword = await bcrypt.hash(password, 10);
+          const user = await UserModel.create({
+            fullName,
+            username,
+            emailId: emailId.toLowerCase(),
+            password: encryptedPassword,
+          });
+
+          const token = JWT.sign(
+            { user_id: user._id, emailId, username },
+            process.env.SECRET_KEY,
+            { expiresIn: "5h" }
+          );
+          user.token = token;
+          return res.send(201, {
+            message: "Signup Successfull!",
+            status: 201,
+            data: user,
           });
         }
       } catch (err) {

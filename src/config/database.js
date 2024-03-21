@@ -3,13 +3,12 @@ const mongoose = require("mongoose");
 const { MONGO_DB_URL, MONGO_DB_USERNAME, MONGO_DB_PASSWORD } = process.env;
 exports.connectToDb = () => {
   // Construct the MongoDB connection URL with credentials
-  const mongoUrlWithCredentials = `mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@${MONGO_DB_URL}`;
   const connectionString = `mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@${MONGO_DB_URL}`;
+  console.log(connectionString);
   // Connecting to the database with authentication
   mongoose
     .connect(connectionString, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
     })
     .then(() => {
       console.log("Successfully connected to database");
