@@ -11,8 +11,9 @@ const corsOptions = {
   origin: ["http://localhost:3000", "https://gym-progress-tracker.vercel.app"],
   optionsSuccessStatus: 200, // for some legacy browsers
 };
+app.options("*", cors(corsOptions));
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 const PORT = process.env.PORT || 3000;
 
