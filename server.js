@@ -2,6 +2,8 @@ require("dotenv").config();
 const cors = require("cors");
 const { connectToDb } = require("./src/config/database");
 const helmet = require("helmet");
+console.log(process.env);
+
 connectToDb();
 
 const express = require("express");
