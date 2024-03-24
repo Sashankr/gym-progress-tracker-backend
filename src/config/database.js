@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const { MONGO_DB_URL, MONGO_DB_USERNAME, MONGO_DB_PASSWORD } = process.env;
+const { MONGO_URL } = process.env;
 exports.connectToDb = () => {
   // Construct the MongoDB connection URL with credentials
-  const connectionString = `mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@${MONGO_DB_URL}`;
+  const connectionString = MONGO_URL;
   // Connecting to the database with authentication
   mongoose
     .connect(connectionString, {
