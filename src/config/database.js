@@ -1,10 +1,11 @@
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 
-const { MONGO_URL } = process.env;
 exports.connectToDb = () => {
   // Construct the MongoDB connection URL with credentials
-  const connectionString = MONGO_URL;
-  console.log(connectionString);
+  const connectionString = process.env.MONGO_URL;
+  console.log("string mongo", connectionString);
   // Connecting to the database with authentication
   mongoose
     .connect(connectionString, {
