@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 exports.connectToDb = () => {
   // Construct the MongoDB connection URL with credentials
-  const connectionString = process.env.MONGO_DB_URL;
+  const connectionString = process.env.MONGO_URL;
   console.log("string mongo", connectionString);
   // Connecting to the database with authentication
   mongoose
