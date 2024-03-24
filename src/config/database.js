@@ -4,6 +4,7 @@ const { MONGO_URL } = process.env;
 exports.connectToDb = () => {
   // Construct the MongoDB connection URL with credentials
   const connectionString = MONGO_URL;
+  console.log(connectionString);
   // Connecting to the database with authentication
   mongoose
     .connect(connectionString, {
